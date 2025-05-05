@@ -1,6 +1,4 @@
-package com.example.todolist
-
-import java.sql.Blob
+package com.example.todolist.data
 
 data class Task(
     val id: Long,

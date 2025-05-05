@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.todolist.data
 
 data class Category(
     val id: Long,

@@ -1,10 +1,10 @@
-package com.example.todolist
+package com.example.todolist.data
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import androidx.core.database.getStringOrNull
+import com.example.todolist.utils.DatabaseManager
 
 class CategoryDAO(val context: Context) {
 

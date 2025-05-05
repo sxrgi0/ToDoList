@@ -1,8 +1,9 @@
-package com.example.todolist
+package com.example.todolist.utils
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.todolist.data.Category
 
 class DatabaseManager(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
