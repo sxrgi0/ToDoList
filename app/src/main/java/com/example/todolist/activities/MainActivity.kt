@@ -14,6 +14,7 @@ import com.example.todolist.data.Category
 import com.example.todolist.data.CategoryDAO
 import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.databinding.DialogCreateCategoryBinding
+import com.example.todolist.databinding.DialogDeleteCategoryBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -50,8 +51,7 @@ class MainActivity : AppCompatActivity() {
         }, {
             // Borrar
             val category= categoryList[it]
-            categoryDAO.delete(category)
-            loadData()
+            deleteCategoryDialog(category)
         })
 
         binding.recyclerView.adapter = adapter
@@ -80,15 +80,15 @@ class MainActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(dialogTitle)
             .setView(dialogBinding.root)
-            .setPositiveButton(android.R.string.ok, { dialog, which ->
+            .setPositiveButton(android.R.string.ok) { dialog, which ->
                 category.title = dialogBinding.titleEditText.text.toString()
-                if(category.id != -1L){
+                if (category.id != -1L) {
                     categoryDAO.update(category)
                 } else {
                     categoryDAO.insert(category)
                 }
                 loadData()
-            })
+            }
 
             .setNegativeButton(android.R.string.cancel, null)
             .setIcon(dialogIcon)
@@ -98,5 +98,24 @@ class MainActivity : AppCompatActivity() {
     fun loadData(){
         categoryList = categoryDAO.findAll()
         adapter.updateItems(categoryList)
+    }
+
+    fun deleteCategoryDialog(category: Category){
+        val dialogBinding = DialogDeleteCategoryBinding.inflate(layoutInflater)
+
+        dialogBinding.titleEditText.setText(category.title)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Delete Category")
+            .setMessage("Do you want to delete this category?")
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok) { dialog, which ->
+                category.title = dialogBinding.titleEditText.text.toString()
+                categoryDAO.delete(category)
+                loadData()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setIcon(R.drawable.ic_delete)
+            .show()
     }
 }
