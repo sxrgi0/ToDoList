@@ -14,7 +14,6 @@ import com.example.todolist.data.Category
 import com.example.todolist.data.CategoryDAO
 import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.databinding.DialogCreateCategoryBinding
-import com.example.todolist.databinding.DialogDeleteCategoryBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -48,10 +47,10 @@ class MainActivity : AppCompatActivity() {
             // Editar
             val category= categoryList[it]
             showCategoryDialog(category)
-        }, {
+        }, { position ->
             // Borrar
-            val category= categoryList[it]
-            deleteCategoryDialog(category)
+            val category= categoryList[position]
+            deleteCategoryDialog(position)
         })
 
         binding.recyclerView.adapter = adapter
@@ -100,17 +99,13 @@ class MainActivity : AppCompatActivity() {
         adapter.updateItems(categoryList)
     }
 
-    fun deleteCategoryDialog(category: Category){
-        val dialogBinding = DialogDeleteCategoryBinding.inflate(layoutInflater)
-
-        dialogBinding.titleEditText.setText(category.title)
+    fun deleteCategoryDialog(position: Int){
+        val category = categoryList[position]
 
         MaterialAlertDialogBuilder(this)
             .setTitle("Delete Category")
             .setMessage("Do you want to delete this category?")
-            .setView(dialogBinding.root)
             .setPositiveButton(android.R.string.ok) { dialog, which ->
-                category.title = dialogBinding.titleEditText.text.toString()
                 categoryDAO.delete(category)
                 loadData()
             }
