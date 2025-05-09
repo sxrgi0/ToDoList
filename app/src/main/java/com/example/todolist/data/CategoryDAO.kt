@@ -81,7 +81,7 @@ class CategoryDAO(val context: Context) {
     }
 
     // Obtener un registro por ID
-    fun findbById(id: Long): Category? {
+    fun findById(id: Long): Category? {
         open()
 
         var category: Category? = null
@@ -92,7 +92,7 @@ class CategoryDAO(val context: Context) {
             val projection = arrayOf(Category.COLUMN_NAME_ID, Category.COLUMN_NAME_TITLE)
 
             // Filter results WHERE "id" = category.id
-            val selection = "${Category.COLUMN_NAME_TITLE} = $id"
+            val selection = "${Category.COLUMN_NAME_ID} = $id"
 
             val cursor = db.query(
                 Category.TABLE_NAME,   // The table to query

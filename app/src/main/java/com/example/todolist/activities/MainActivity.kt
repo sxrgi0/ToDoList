@@ -1,6 +1,7 @@
 package com.example.todolist.activities
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -43,6 +44,10 @@ class MainActivity : AppCompatActivity() {
 
         adapter = CategoryAdapter(categoryList, {
             // He hecho click en una categoria
+            val category = categoryList[it]
+            val intent = Intent(this, TaskListActivity::class.java)
+            intent.putExtra("CATEGORY_ID", category.id)
+            startActivity(intent)
         }, {
             // Editar
             val category= categoryList[it]
@@ -59,6 +64,13 @@ class MainActivity : AppCompatActivity() {
         binding.addCategoryButton.setOnClickListener {
             showCategoryDialog(Category(-1L,""))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        categoryList = categoryDAO.findAll()
+        adapter.updateItems(categoryList)
     }
 
     fun showCategoryDialog(category: Category) {
