@@ -85,7 +85,7 @@ class TaskDAO (val context: Context) {
     }
 
     // Obtener un registro por ID
-    fun findbById(id: Long): Task? {
+    fun findById(id: Long): Task? {
         open()
 
         var task: Task? = null
@@ -101,7 +101,7 @@ class TaskDAO (val context: Context) {
             )
 
             // Filter results WHERE "id" = task.id
-            val selection = "${Task.COLUMN_NAME_TITLE} = $id"
+            val selection = "${Task.COLUMN_NAME_ID} = $id"
 
             val cursor = db.query(
                 Task.TABLE_NAME,   // The table to query
@@ -207,7 +207,7 @@ class TaskDAO (val context: Context) {
                 null,          // The values for the WHERE clause
                 null,                   // don't group the rows
                 null,                   // don't filter by row groups
-                null               // The sort order
+                Task.COLUMN_NAME_DONE               // The sort order
             )
 
             while (cursor.moveToNext()) {
